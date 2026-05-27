@@ -1,6 +1,8 @@
 # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-rotations
 resource "aws_cloudwatch_event_rule" "secret-rotation" {
   event_pattern = jsonencode({
+    name = var.event_rule_name
+
     detail-type = [
       "AWS API Call via CloudTrail",
       "AWS Service Event via CloudTrail"
@@ -13,6 +15,8 @@ resource "aws_cloudwatch_event_rule" "secret-rotation" {
       "eventName" : ["PutSecretValue", "UpdateSecret", "RotationSucceeded"]
     }
   })
+
+  tags = var.event_rule_tags
 }
 
 data "aws_iam_policy_document" "lambda_exec_role_policy" {
