@@ -13,6 +13,10 @@ resource "aws_cloudwatch_event_rule" "secret-rotation" {
     detail = {
       "eventSource" : ["secretsmanager.amazonaws.com"],
       "eventName" : ["PutSecretValue", "UpdateSecret", "RotationSucceeded"]
+      # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-all-changes
+      "responseElements" : {
+        "arn" : var.secrets_to_trigger_on
+      }
     }
   })
 

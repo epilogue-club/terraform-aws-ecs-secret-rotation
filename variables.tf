@@ -10,6 +10,12 @@ variable "event_rule_name" {
   default     = null
 }
 
+variable "secrets_to_trigger_on" {
+  type        = list(string)
+  description = "List of secret ARNs that should trigger the redeploy when rotated"
+  default     = []
+}
+
 variable "event_rule_tags" {
   type        = map(string)
   description = "Tags to apply to the EventBridge rule"
