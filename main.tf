@@ -25,8 +25,9 @@ resource "aws_cloudwatch_event_rule" "secret_rotation" {
 }
 
 resource "aws_cloudwatch_event_target" "lambda_target" {
-  arn  = aws_lambda_function.ecs_redeploy_lambda.arn
-  rule = aws_cloudwatch_event_rule.secret_rotation.id
+  arn            = aws_lambda_function.ecs_redeploy_lambda.arn
+  rule           = aws_cloudwatch_event_rule.secret_rotation.id
+  event_bus_name = var.bus_name
 }
 
 # See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission#basic-usage-with-eventbridge
