@@ -1,5 +1,6 @@
 # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-rotations
 resource "aws_cloudwatch_event_rule" "secret_rotation" {
+  name = "${var.name_prefix}-secret-rotation"
   event_pattern = jsonencode({
     name = var.event_rule_name
 
@@ -23,26 +24,6 @@ resource "aws_cloudwatch_event_rule" "secret_rotation" {
   tags = var.event_rule_tags
 }
 
-data "aws_iam_policy_document" "lambda_exec_role_policy" {
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
-
-    actions = [
-      "sts:AssumeRole"
-    ]
-  }
-}
-
-resource "aws_iam_role" "lambda_exec_role" {
-  name               = var.lambda_iam_role_name
-  assume_role_policy = data.aws_iam_policy_document.lambda_exec_role_policy.json
-}
-
 data "archive_file" "lambda_src_code" {
   type        = "zip"
   source_file = "${path.module}/lambda/main.py"
@@ -51,7 +32,7 @@ data "archive_file" "lambda_src_code" {
 
 resource "aws_lambda_function" "ecs_redeploy_lambda" {
   filename      = data.archive_file.lambda_src_code.output_path
-  function_name = "ecs_redeploy_on_secret_rotation"
+  function_name = "${var.name_prefix}_lambda"
   description   = "Redeploys an ECS service when a secret rotation event is detected in EventBridge"
   role          = aws_iam_role.lambda_exec_role.arn
   handler       = "main.lambda_handler"

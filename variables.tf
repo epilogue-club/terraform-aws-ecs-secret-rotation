@@ -1,3 +1,9 @@
+variable "name_prefix" {
+  type        = string
+  description = "Prefix to use for naming AWS resources created by this module"
+  default     = "ecs-redeploy-on-secret-rotation"
+}
+
 variable "bus_name" {
   type        = string
   description = "Name of the existing EventBridge event bus"
@@ -13,7 +19,11 @@ variable "event_rule_name" {
 variable "secrets_to_trigger_on" {
   type        = list(string)
   description = "List of secret ARNs that should trigger the redeploy when rotated"
-  default     = []
+
+  validation {
+    condition     = length(var.secrets_to_trigger_on) > 0
+    error_message = "You need to provide at least one secret ARN in the secrets_to_trigger_on variable."
+  }
 }
 
 variable "event_rule_tags" {
@@ -25,7 +35,8 @@ variable "event_rule_tags" {
 variable "lambda_iam_role_name" {
   type        = string
   description = "What to name the IAM role to be used by the Lambda function"
-  default     = "ecs_redeploy_lambda_exec_role"
+  # Do not include a prefix here
+  default = "lambda-exec-role"
 }
 
 variable "ecs_region" {
@@ -41,6 +52,11 @@ variable "ecs_cluster_name" {
 variable "ecs_service_name" {
   type        = string
   description = "The name of the ECS service to redeploy when a secret rotation event is detected"
+}
+
+variable "ecs_service_arn" {
+  type        = string
+  description = "The ARN of the ECS service to redeploy when a secret rotation event is detected"
 }
 
 variable "lambda_function_tags" {
