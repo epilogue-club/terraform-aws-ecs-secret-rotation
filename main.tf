@@ -1,5 +1,5 @@
 # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-rotations
-resource "aws_cloudwatch_event_rule" "secret-rotation" {
+resource "aws_cloudwatch_event_rule" "secret_rotation" {
   event_pattern = jsonencode({
     name = var.event_rule_name
 
@@ -49,7 +49,7 @@ data "archive_file" "lambda_src_code" {
   output_path = "${path.module}/lambda/function.zip"
 }
 
-resource "aws_lambda_function" "ecs_redeploy_func" {
+resource "aws_lambda_function" "ecs_redeploy_lambda" {
   filename      = data.archive_file.lambda_src_code.output_path
   function_name = "ecs_redeploy_on_secret_rotation"
   description   = "Redeploys an ECS service when a secret rotation event is detected in EventBridge"
@@ -60,7 +60,11 @@ resource "aws_lambda_function" "ecs_redeploy_func" {
   runtime = "python3.14"
 
   environment {
-    variables = var.lambda_env_vars
+    variables = {
+      ECS_REGION       = var.ecs_region
+      ECS_CLUSTER_NAME = var.ecs_cluster_name
+      ECS_SERVICE_NAME = var.ecs_service_name
+    }
   }
 
   tags = var.lambda_function_tags

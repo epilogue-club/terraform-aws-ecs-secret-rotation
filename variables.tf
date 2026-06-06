@@ -24,14 +24,23 @@ variable "event_rule_tags" {
 
 variable "lambda_iam_role_name" {
   type        = string
-  description = "Name of the existing IAM role to be used by the Lambda function"
+  description = "What to name the IAM role to be used by the Lambda function"
   default     = "ecs_redeploy_lambda_exec_role"
 }
 
-variable "lambda_env_vars" {
-  type        = map(string)
-  description = "Environment variables to set for the Lambda function"
-  default     = {}
+variable "ecs_region" {
+  type        = string
+  description = "AWS region where the ECS cluster is located"
+}
+
+variable "ecs_cluster_name" {
+  type        = string
+  description = "The name of the ECS cluster containing the service to redeploy"
+}
+
+variable "ecs_service_name" {
+  type        = string
+  description = "The name of the ECS service to redeploy when a secret rotation event is detected"
 }
 
 variable "lambda_function_tags" {
