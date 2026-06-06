@@ -3,8 +3,6 @@ resource "aws_cloudwatch_event_rule" "secret_rotation" {
   name           = "${var.name_prefix}-secret-rotation"
   event_bus_name = var.bus_name
   event_pattern = jsonencode({
-    name = "${var.name_prefix}-secret-rotation-event-pattern"
-
     detail-type = [
       "AWS API Call via CloudTrail",
       "AWS Service Event via CloudTrail"
