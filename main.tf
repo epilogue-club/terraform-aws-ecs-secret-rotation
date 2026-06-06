@@ -1,6 +1,7 @@
 # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-rotations
 resource "aws_cloudwatch_event_rule" "secret_rotation" {
-  name = "${var.name_prefix}-secret-rotation"
+  name           = "${var.name_prefix}-secret-rotation"
+  event_bus_name = var.bus_name
   event_pattern = jsonencode({
     name = "${var.name_prefix}-secret-rotation-event-pattern"
 
@@ -9,7 +10,6 @@ resource "aws_cloudwatch_event_rule" "secret_rotation" {
       "AWS Service Event via CloudTrail"
     ]
 
-    event_bus_name = var.bus_name
 
     detail = {
       "eventSource" : ["secretsmanager.amazonaws.com"],
