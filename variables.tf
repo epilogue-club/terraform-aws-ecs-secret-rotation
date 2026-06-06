@@ -7,7 +7,7 @@ variable "name_prefix" {
     # Setting 37 as the max length because of a constaint for event rules
     # See here: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule#argument-reference
     condition     = length(var.name_prefix) > 0 && length(var.name_prefix) <= 37
-    error_message = "name_prefix must be between 1 and 47 characters inclusive"
+    error_message = "name_prefix must be between 1 and 37 characters inclusive"
   }
 }
 
