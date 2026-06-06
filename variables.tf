@@ -11,13 +11,6 @@ variable "name_prefix" {
   }
 }
 
-variable "bus_name" {
-  type        = string
-  description = "Name of the existing EventBridge event bus"
-  # default to null so that if the user doesn't provide it, the default event bus will be used
-  default = null
-}
-
 variable "secrets_to_trigger_on" {
   type        = list(string)
   description = "List of secret ARNs that should trigger the redeploy when rotated"

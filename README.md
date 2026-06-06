@@ -52,7 +52,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
-| <a name="input_bus_name"></a> [bus\_name](#input\_bus\_name) | Name of the existing EventBridge event bus | `string` | `null` | no |
 | <a name="input_ecs_cluster_name"></a> [ecs\_cluster\_name](#input\_ecs\_cluster\_name) | The name of the ECS cluster containing the service to redeploy | `string` | n/a | yes |
 | <a name="input_ecs_region"></a> [ecs\_region](#input\_ecs\_region) | AWS region where the ECS cluster is located | `string` | n/a | yes |
 | <a name="input_ecs_service_arn"></a> [ecs\_service\_arn](#input\_ecs\_service\_arn) | The ARN of the ECS service to redeploy when a secret rotation event is detected | `string` | n/a | yes |

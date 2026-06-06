@@ -1,7 +1,6 @@
 # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-rotations
 resource "aws_cloudwatch_event_rule" "secret_rotation" {
-  name           = "${var.name_prefix}-secret-rotation"
-  event_bus_name = var.bus_name
+  name = "${var.name_prefix}-secret-rotation"
   event_pattern = jsonencode({
     source = ["aws.secretsmanager"]
     # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-all-changes
@@ -36,9 +35,8 @@ resource "aws_cloudwatch_event_rule" "secret_rotation" {
 }
 
 resource "aws_cloudwatch_event_target" "lambda_target" {
-  arn            = aws_lambda_function.ecs_redeploy_lambda.arn
-  rule           = aws_cloudwatch_event_rule.secret_rotation.id
-  event_bus_name = var.bus_name
+  arn  = aws_lambda_function.ecs_redeploy_lambda.arn
+  rule = aws_cloudwatch_event_rule.secret_rotation.id
 }
 
 # See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission#basic-usage-with-eventbridge
