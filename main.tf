@@ -3,20 +3,33 @@ resource "aws_cloudwatch_event_rule" "secret_rotation" {
   name           = "${var.name_prefix}-secret-rotation"
   event_bus_name = var.bus_name
   event_pattern = jsonencode({
-    detail-type = [
-      "AWS API Call via CloudTrail",
-      "AWS Service Event via CloudTrail"
-    ]
+    source = ["aws.secretsmanager"]
+    # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-all-changes
+    "$or" = [
+      {
+        detail-type = ["AWS API Call via CloudTrail"]
 
+        detail = {
+          eventSource = ["secretsmanager.amazonaws.com"]
+          eventName   = ["PutSecretValue", "UpdateSecret"]
+          responseElements = {
+            arn = var.secrets_to_trigger_on
+          }
+        }
+      },
+      {
+        detail-type = ["AWS Service Event via CloudTrail"]
 
-    detail = {
-      "eventSource" : ["secretsmanager.amazonaws.com"],
-      "eventName" : ["PutSecretValue", "UpdateSecret", "RotationSucceeded"]
-      # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-all-changes
-      "responseElements" : {
-        "arn" : var.secrets_to_trigger_on
+        detail = {
+          eventSource = ["secretsmanager.amazonaws.com"]
+          eventName   = ["RotationSucceeded"]
+
+          additionalEventData = {
+            SecretId = var.secrets_to_trigger_on
+          }
+        }
       }
-    }
+    ]
   })
 
   tags = var.event_rule_tags
