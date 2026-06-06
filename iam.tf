@@ -29,9 +29,14 @@ data "aws_iam_policy_document" "lambda_exec_role_policy" {
   }
 }
 
+resource "aws_iam_policy" "lambda_exec_role_policy" {
+  name   = "${var.name_prefix}-lambda-exec-role-policy"
+  policy = data.aws_iam_policy_document.lambda_exec_role_policy.json
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_exec_role_policy_attachment" {
   role       = aws_iam_role.lambda_exec_role.name
-  policy_arn = data.aws_iam_policy_document.lambda_exec_role_policy.json
+  policy_arn = aws_iam_policy.lambda_exec_role_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
