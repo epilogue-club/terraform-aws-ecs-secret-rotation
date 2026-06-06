@@ -1,7 +1,7 @@
+# This needs to be required in case a user has multiple instances of this module
 variable "name_prefix" {
   type        = string
   description = "Prefix to use for naming AWS resources created by this module"
-  default     = "ecs-redeploy-on-secret-rotation"
 }
 
 variable "bus_name" {
