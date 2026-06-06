@@ -25,6 +25,7 @@ data "aws_iam_policy_document" "lambda_exec_role_policy" {
     ]
 
     resources = [var.ecs_service_arn]
+    sid       = "UpdateEcsService"
   }
 }
 

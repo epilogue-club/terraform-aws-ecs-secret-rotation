@@ -24,6 +24,20 @@ resource "aws_cloudwatch_event_rule" "secret_rotation" {
   tags = var.event_rule_tags
 }
 
+resource "aws_cloudwatch_event_target" "lambda_target" {
+  arn  = aws_lambda_function.ecs_redeploy_lambda.arn
+  rule = aws_cloudwatch_event_rule.secret_rotation.id
+}
+
+# See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission#basic-usage-with-eventbridge
+resource "aws_lambda_permission" "execute_lambda_from_eventbridge" {
+  statement_id  = "${var.name_prefix}-allow-eventbridge-invoke-lambda"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.ecs_redeploy_lambda.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.secret_rotation.arn
+}
+
 data "archive_file" "lambda_src_code" {
   type        = "zip"
   source_file = "${path.module}/lambda/main.py"
@@ -32,7 +46,7 @@ data "archive_file" "lambda_src_code" {
 
 resource "aws_lambda_function" "ecs_redeploy_lambda" {
   filename      = data.archive_file.lambda_src_code.output_path
-  function_name = "${var.name_prefix}_lambda"
+  function_name = "${var.name_prefix}-lambda"
   description   = "Redeploys an ECS service when a secret rotation event is detected in EventBridge"
   role          = aws_iam_role.lambda_exec_role.arn
   handler       = "main.lambda_handler"
