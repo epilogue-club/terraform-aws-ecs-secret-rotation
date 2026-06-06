@@ -2,6 +2,12 @@
 variable "name_prefix" {
   type        = string
   description = "Prefix to use for naming AWS resources created by this module"
+
+  validation {
+    # Setting 44 as the max length for lambda function names are 64 chars and we're using 20 chars for the suffix
+    condition     = length(var.name_prefix) > 0 && length(var.name_prefix) <= 44
+    error_message = "name_prefix must be between 1 and 44 characters inclusive"
+  }
 }
 
 variable "bus_name" {
