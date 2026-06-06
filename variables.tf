@@ -16,12 +16,6 @@ variable "bus_name" {
   default     = null
 }
 
-variable "event_rule_name" {
-  type        = string
-  description = "Name of the EventBridge rule to be created"
-  default     = null
-}
-
 variable "secrets_to_trigger_on" {
   type        = list(string)
   description = "List of secret ARNs that should trigger the redeploy when rotated"
