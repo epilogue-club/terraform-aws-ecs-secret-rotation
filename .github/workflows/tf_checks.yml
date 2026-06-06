@@ -6,11 +6,6 @@ on:
       - main
       - alpha
 
-permissions:
-  # write permissions are needed to use OIDC
-  id-token: write
-  contents: read
-
 jobs:
   terraform_production_checks:
     name: Terraform Production checks
