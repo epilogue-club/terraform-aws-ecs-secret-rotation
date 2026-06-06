@@ -64,9 +64,4 @@ No modules.
 
 ## Contributing
 
-Prerequisites for setting up your development environment:
-1. [precommit](https://pre-commit.com/) installed
-1. Install [TFLint](https://github.com/terraform-linters/tflint)
-1. run `precommit install` to install the git hooks
-
-Create a branch of the `main` branch and make your changes. Try to keep your PR small, with one change per PR if possible.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.
