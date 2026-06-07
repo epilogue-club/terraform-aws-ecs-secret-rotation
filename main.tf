@@ -1,5 +1,6 @@
 locals {
-  app_name = "ecs-secret-rotation"
+  app_name             = "ecs-secret-rotation"
+  lambda_function_name = "${var.name_prefix}-${local.app_name}"
 }
 
 # See here: https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring-eventbridge.html#monitoring-eventbridge_examples-rotations
@@ -58,9 +59,14 @@ data "archive_file" "lambda_src_code" {
   output_path = "${path.module}/lambda/function.zip"
 }
 
+resource "aws_cloudwatch_log_group" "lambda_log_group" {
+  name              = "/aws/lambda/${local.lambda_function_name}"
+  retention_in_days = 14
+}
+
 resource "aws_lambda_function" "ecs_redeploy_lambda" {
   filename      = data.archive_file.lambda_src_code.output_path
-  function_name = "${var.name_prefix}-${local.app_name}"
+  function_name = local.lambda_function_name
   description   = "Redeploys an ECS service when a secret rotation event is detected in EventBridge"
   role          = aws_iam_role.lambda_exec_role.arn
   handler       = "main.lambda_handler"
@@ -75,6 +81,11 @@ resource "aws_lambda_function" "ecs_redeploy_lambda" {
       ECS_SERVICE_NAME = var.ecs_service_name
     }
   }
+
+  depends_on = [
+    aws_cloudwatch_log_group.lambda_log_group,
+    aws_iam_role_policy_attachment.lambda_basic_execution
+  ]
 
   tags = var.lambda_function_tags
 }

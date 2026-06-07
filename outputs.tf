@@ -12,3 +12,8 @@ output "iam_role_arn" {
   description = "ARN of the IAM role assumed by the Lambda function"
   value       = aws_iam_role.lambda_exec_role.arn
 }
+
+output "aws_cloudwatch_log_group_arn" {
+  description = "ARN of the CloudWatch Log Group where Lambda function logs are stored"
+  value       = aws_cloudwatch_log_group.lambda_log_group.arn
+}

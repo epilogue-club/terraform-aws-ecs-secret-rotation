@@ -17,6 +17,7 @@ It's a layer of abstraction over various AWS resources.
 What it creates:
 - An EventBridge rule to monitor the specific secrets you want to trigger on
 - A Lambda function to redeploy the ECS service when a secret rotation event is detected
+- CloudWatch logs for the Lambda function
 - An IAM role for the Lambda function
 
 ## Contributing
