@@ -9,8 +9,6 @@
   </a>
 </p>
 
-
-
 This simplifies redeploying an ECS service when a secret is rotated.
 It's a layer of abstraction over various AWS resources.
 
@@ -75,3 +73,9 @@ module "ecs-secret-rotation" {
 | <a name="output_iam_role_arn"></a> [iam_role_arn](#output_iam_role_arn) | ARN of the IAM role assumed by the Lambda function |
 | <a name="output_lambda_function_arn"></a> [lambda_function_arn](#output_lambda_function_arn) | ARN of the Lambda function that will be triggered on secret rotation events |
 <!-- END_TF_DOCS -->
+
+## Alternatives
+
+A simpler approach to this module is to have your app directly access the AWS secret(s) it requires. That wasn't suited to our specific use case, hence why we developed this module. However, we recommend considering that approach first.
+
+If you prefer to use CloudFormation, see [this](https://aws.amazon.com/blogs/infrastructure-and-automation/restart-amazon-ecs-tasks-with-aws-lambda-and-aws-cloudformation-custom-resources/) guide, which follows a similar approach to this module.
