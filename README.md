@@ -9,6 +9,10 @@
   </a>
 </p>
 
+**Problem we're solving**: if your ECS service uses an AWS secret that has rotated, you will need to force a new deployment for your app to have the updated secret value.
+For example, if your app relies on a RDS (Relational Database Service) secret with the authentication details that rotates, your app won't be able to connect to the database
+because it tries to use old credentials.
+
 This simplifies redeploying an ECS service when a secret is rotated.
 It's a layer of abstraction over various AWS resources.
 
@@ -78,4 +82,4 @@ module "ecs-secret-rotation" {
 
 A simpler approach to this module is to have your app directly access the AWS secret(s) it requires. That wasn't suited to our specific use case, hence why we developed this module. However, we recommend considering that approach first.
 
-If you prefer to use CloudFormation, see [this](https://aws.amazon.com/blogs/infrastructure-and-automation/restart-amazon-ecs-tasks-with-aws-lambda-and-aws-cloudformation-custom-resources/) guide, which follows a similar approach to this module.
+If you prefer to use CloudFormation, see this [AWS guide](https://aws.amazon.com/blogs/infrastructure-and-automation/restart-amazon-ecs-tasks-with-aws-lambda-and-aws-cloudformation-custom-resources/), which follows a similar approach to this module.
