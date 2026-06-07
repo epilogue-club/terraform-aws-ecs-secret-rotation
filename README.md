@@ -24,6 +24,25 @@ What it creates:
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.
 
+## Basic usage example
+```hcl
+module "ecs-secret-rotation" {
+  source  = "epilogue-club/ecs-secret-rotation/aws"
+  version = "1.0.0-alpha.2"
+
+  # these are the required variables
+  ecs_cluster_name = "<your ECS cluster name>"
+  ecs_region       = "<your AWS region where the ECS cluster is located>"
+  ecs_service_arn  = "<your ECS service ARN>"
+  ecs_service_name = "<your ECS service name>"
+  name_prefix      = "<your name prefix>"
+  secrets_to_trigger_on = [
+    "<the ARN of the secret you want to trigger on when rotated>",
+  ]
+}
+```
+
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -51,6 +70,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this 
 
 | Name | Description |
 | ---- | ----------- |
+| <a name="output_aws_cloudwatch_log_group_arn"></a> [aws_cloudwatch_log_group_arn](#output_aws_cloudwatch_log_group_arn) | ARN of the CloudWatch Log Group where Lambda function logs are stored |
 | <a name="output_event_rule_arn"></a> [event_rule_arn](#output_event_rule_arn) | ARN of the CloudWatch Event Rule that triggers the Lambda function on secret rotation events |
 | <a name="output_iam_role_arn"></a> [iam_role_arn](#output_iam_role_arn) | ARN of the IAM role assumed by the Lambda function |
 | <a name="output_lambda_function_arn"></a> [lambda_function_arn](#output_lambda_function_arn) | ARN of the Lambda function that will be triggered on secret rotation events |
