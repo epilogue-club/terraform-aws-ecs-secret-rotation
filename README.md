@@ -1,4 +1,15 @@
-# Terraform ECS Secret Rotation Redeploy
+# Terraform ECS Secret Rotation
+
+<p align="center">
+  <a href="https://registry.terraform.io/modules/epilogue-club/ecs-secret-rotation/aws/latest">
+    <img
+      src="https://img.shields.io/badge/View%20on%20Terraform%20Registry-623CE4?style=for-the-badge&logo=terraform&logoColor=white"
+      alt="View on Terraform Registry"
+    />
+  </a>
+</p>
+
+
 
 This simplifies redeploying an ECS service when a secret is rotated.
 It's a layer of abstraction over various AWS resources.
