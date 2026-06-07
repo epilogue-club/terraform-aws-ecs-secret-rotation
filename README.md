@@ -9,8 +9,9 @@
   </a>
 </p>
 
-**Problem we're solving**: if your ECS service uses an AWS secret that has rotated, you will need to force a new deployment for your app to have the updated secret value.
-For example, if your app relies on a RDS (Relational Database Service) secret with the authentication details that rotates, your app won't be able to connect to the database
+**Problem we're solving**: if your ECS service uses an AWS secret that has rotated, which you injected into your ECS service as an environment variable, you will need to force a new deployment for your service to have the updated secret value (see [AWS docs](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/secrets-envvar-secrets-manager.html)).
+
+For example, if your app relies on a RDS (Relational Database Service) secret with the authentication details (e.g. username and password), after the secret has rotated, your app won't be able to connect to the database
 because it tries to use old credentials.
 
 This simplifies redeploying an ECS service when a secret is rotated.
@@ -20,7 +21,7 @@ What it creates:
 - An EventBridge rule to monitor the specific secrets you want to trigger on
 - A Lambda function to redeploy the ECS service when a secret rotation event is detected
 - CloudWatch logs for the Lambda function
-- An IAM role for the Lambda function
+- An IAM role for the Lambda function with the necessary permissions
 
 ## Contributing
 
