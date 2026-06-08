@@ -18,11 +18,11 @@ This simplifies redeploying an ECS service when a secret is rotated.
 It's a layer of abstraction over various AWS resources.
 
 What it creates:
-- An EventBridge rule to monitor the specific secrets you want to trigger on
-- A Lambda function to redeploy the ECS service when a secret rotation event is detected
-- CloudWatch logs for the Lambda function
-- An IAM role for the Lambda function with the necessary permissions
-- Optional: CloudTrail, S3 bucket for CloudTrail and an associated bucket policy
+- An [EventBridge rule](https://github.com/epilogue-club/terraform-aws-ecs-secret-rotation/blob/main/main.tf) to monitor the specific secrets you want to trigger on
+- A [Lambda function](https://github.com/epilogue-club/terraform-aws-ecs-secret-rotation/blob/main/main.tf) to redeploy the ECS service when a secret rotation event is detected
+- [CloudWatch log group](https://github.com/epilogue-club/terraform-aws-ecs-secret-rotation/blob/main/main.tf) for the Lambda function
+- An [IAM role](https://github.com/epilogue-club/terraform-aws-ecs-secret-rotation/blob/main/iam.tf) for the Lambda function with the necessary permissions
+- Optional: [CloudTrail, S3 bucket for CloudTrail and an associated bucket policy](https://github.com/epilogue-club/terraform-aws-ecs-secret-rotation/blob/main/cloudtrail.tf)
 
 ## Contributing
 
