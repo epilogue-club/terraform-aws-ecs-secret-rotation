@@ -56,6 +56,7 @@ module "ecs-secret-rotation" {
 
   # set this variable to true to create a CloudTrail and S3 bucket for you
   create_cloudtrail = true
+  cloudtrail_bucket_name = "<your desired CloudTrail S3 bucket name>"
 
   # these are the required variables
   ecs_cluster_name = "<your ECS cluster name>"
