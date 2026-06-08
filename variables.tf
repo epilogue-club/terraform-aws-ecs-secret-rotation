@@ -65,3 +65,9 @@ variable "create_cloudtrail" {
   description = "Whether to create a CloudTrail to log management events. If set to false, you must ensure that there is an existing CloudTrail and S3 bucket."
   default     = false
 }
+
+variable "cloudtrail_bucket_name" {
+  type        = string
+  description = "The name of the S3 bucket that will be created for the CloudTrail logs. This is only used if create_cloudtrail is set to true. If create_cloudtrail is false, this variable is ignored."
+  default     = null
+}

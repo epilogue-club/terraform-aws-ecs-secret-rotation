@@ -18,7 +18,7 @@ resource "aws_cloudtrail" "management_events" {
 
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   count  = var.create_cloudtrail ? 1 : 0
-  bucket = "${var.name_prefix}-cloudtrail-logs"
+  bucket = var.cloudtrail_bucket_name
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail_bucket_lifecycle" {

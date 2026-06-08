@@ -82,6 +82,8 @@ module "ecs-secret-rotation" {
 
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_cloudtrail_bucket_name"></a> [cloudtrail_bucket_name](#input_cloudtrail_bucket_name) | The name of the S3 bucket that will be created for the CloudTrail logs. This is only used if create_cloudtrail is set to true. If create_cloudtrail is false, this variable is ignored. | `string` | `null` | no |
+| <a name="input_create_cloudtrail"></a> [create_cloudtrail](#input_create_cloudtrail) | Whether to create a CloudTrail to log management events. If set to false, you must ensure that there is an existing CloudTrail and S3 bucket. | `bool` | `false` | no |
 | <a name="input_ecs_cluster_name"></a> [ecs_cluster_name](#input_ecs_cluster_name) | The name of the ECS cluster containing the service to redeploy | `string` | n/a | yes |
 | <a name="input_ecs_region"></a> [ecs_region](#input_ecs_region) | AWS region where the ECS cluster is located | `string` | n/a | yes |
 | <a name="input_ecs_service_arn"></a> [ecs_service_arn](#input_ecs_service_arn) | The ARN of the ECS service to redeploy when a secret rotation event is detected | `string` | n/a | yes |
