@@ -22,6 +22,7 @@ What it creates:
 - A Lambda function to redeploy the ECS service when a secret rotation event is detected
 - CloudWatch logs for the Lambda function
 - An IAM role for the Lambda function with the necessary permissions
+- Optional: CloudTrail, S3 bucket for CloudTrail and an associated bucket policy
 
 ## Contributing
 
