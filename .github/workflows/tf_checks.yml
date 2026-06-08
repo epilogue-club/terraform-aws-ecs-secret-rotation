@@ -1,0 +1,28 @@
+name: Terraform Checks on PRs
+
+on:
+  pull_request:
+    branches:
+      - main
+      - alpha
+
+jobs:
+  terraform_production_checks:
+    name: Terraform Production checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3.1.2
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform init
+        id: init
+        run: terraform init -backend=false -input=false -no-color
+
+      - name: Terraform validate
+        id: validate
+        run: terraform validate -no-color
