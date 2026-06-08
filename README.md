@@ -24,10 +24,6 @@ What it creates:
 - An [IAM role](https://github.com/epilogue-club/terraform-aws-ecs-secret-rotation/blob/main/iam.tf) for the Lambda function with the necessary permissions
 - Optional: [CloudTrail, S3 bucket for CloudTrail and an associated bucket policy](https://github.com/epilogue-club/terraform-aws-ecs-secret-rotation/blob/main/cloudtrail.tf)
 
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.
-
 ## Example Usage
 
 ### Basic usage example without creating a CloudTrail
@@ -135,3 +131,7 @@ Then, verify the following:
 A simpler approach to this module is to have your app directly access the AWS secret(s) it requires. That wasn't suited to our specific use case, hence why we developed this module. However, we recommend considering that approach first.
 
 If you prefer to use CloudFormation, see this [AWS guide](https://aws.amazon.com/blogs/infrastructure-and-automation/restart-amazon-ecs-tasks-with-aws-lambda-and-aws-cloudformation-custom-resources/), which follows a similar approach to this module.
+
+## Contributing
+
+If you want to contribute to this project (thanks!), read [CONTRIBUTING.md](CONTRIBUTING.md) first.
