@@ -109,6 +109,27 @@ module "ecs-secret-rotation" {
 | <a name="output_lambda_function_arn"></a> [lambda_function_arn](#output_lambda_function_arn) | ARN of the Lambda function that will be triggered on secret rotation events |
 <!-- END_TF_DOCS -->
 
+## Manual testing
+
+To test this works manually (i.e. without waiting for a rotation event), we recommend forcing a rotation event as this will test all resources in this module are working as expected.
+
+For example, if you have a RDS database that manages its own rotating secret, you can run the following in your terminal:
+
+```hcl
+aws rds modify-db-instance \
+  --region <your-aws-region> \
+  --db-instance-identifier <database-id> \
+  --rotate-master-user-password \
+  --apply-immediately
+```
+
+Then, verify the following:
+1. Go to your rotating AWS secret and verify there is a new secret version that has the `AWSCURRENT` staging label
+   1. Optional: check CloudTrail to see if a `RotationSucceeded` event is present (you can filter the event source to `secretsmanager.amazonaws.com`)
+1. Go to the Lambda function that this module creates and verify it was invoked
+1. Go to the CloudWatch log group that this module creates and verify that the logs contain a log statement from the Lambda function
+1. Finally, and **most importantly**, go to your ECS service and verify that there was a new service deployment
+
 ## Alternatives
 
 A simpler approach to this module is to have your app directly access the AWS secret(s) it requires. That wasn't suited to our specific use case, hence why we developed this module. However, we recommend considering that approach first.
