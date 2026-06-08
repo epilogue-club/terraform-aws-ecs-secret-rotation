@@ -37,7 +37,7 @@ For this basic example, you need to have an existing CloudTrail and associated S
 ```hcl
 module "ecs-secret-rotation" {
   source  = "epilogue-club/ecs-secret-rotation/aws"
-  version = "1.0.0-alpha.2"
+  version = "1.0.0"
 
   # these are the required variables
   ecs_cluster_name = "<your ECS cluster name>"
@@ -56,7 +56,7 @@ module "ecs-secret-rotation" {
 ```hcl
 module "ecs-secret-rotation" {
   source  = "epilogue-club/ecs-secret-rotation/aws"
-  version = "1.0.0-alpha.2"
+  version = "1.0.0"
 
   # set this variable to true to create a CloudTrail and S3 bucket for you
   create_cloudtrail = true
