@@ -27,7 +27,12 @@ What it creates:
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.
 
-## Basic usage example
+## Example Usage
+
+### Basic usage example without creating a CloudTrail
+
+For this basic example, you need to have an existing CloudTrail and associated S3 bucket to store the CloudTrail logs. If you don't have one, see the next example which includes Terraform code to create a CloudTrail.
+
 ```hcl
 module "ecs-secret-rotation" {
   source  = "epilogue-club/ecs-secret-rotation/aws"
@@ -45,13 +50,35 @@ module "ecs-secret-rotation" {
 }
 ```
 
+### Basic usage example with creating a CloudTrail
+
+```hcl
+module "ecs-secret-rotation" {
+  source  = "epilogue-club/ecs-secret-rotation/aws"
+  version = "1.0.0-alpha.2"
+
+  # set this variable to true to create a CloudTrail and S3 bucket for you
+  create_cloudtrail = true
+  cloudtrail_bucket_name = "<your desired CloudTrail S3 bucket name>"
+
+  # these are the required variables
+  ecs_cluster_name = "<your ECS cluster name>"
+  ecs_region       = "<your AWS region where the ECS cluster is located>"
+  ecs_service_arn  = "<your ECS service ARN>"
+  ecs_service_name = "<your ECS service name>"
+  name_prefix      = "<your name prefix>"
+  secrets_to_trigger_on = [
+    "<the ARN of the secret you want to trigger on when rotated>",
+  ]
+}
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 | ---- | ------- |
-| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.1.9 |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.9.0 |
 | <a name="requirement_archive"></a> [archive](#requirement_archive) | >= 2.8.0 |
 | <a name="requirement_aws"></a> [aws](#requirement_aws) | >= 6.0 |
 
@@ -59,6 +86,8 @@ module "ecs-secret-rotation" {
 
 | Name | Description | Type | Default | Required |
 | ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_cloudtrail_bucket_name"></a> [cloudtrail_bucket_name](#input_cloudtrail_bucket_name) | The name of the S3 bucket that will be created for the CloudTrail logs. This is only used and required if create_cloudtrail is set to true. If create_cloudtrail is false, this variable is ignored. | `string` | `null` | no |
+| <a name="input_create_cloudtrail"></a> [create_cloudtrail](#input_create_cloudtrail) | Whether to create a CloudTrail to log management events. If set to false, you must ensure that there is an existing CloudTrail and S3 bucket. | `bool` | `false` | no |
 | <a name="input_ecs_cluster_name"></a> [ecs_cluster_name](#input_ecs_cluster_name) | The name of the ECS cluster containing the service to redeploy | `string` | n/a | yes |
 | <a name="input_ecs_region"></a> [ecs_region](#input_ecs_region) | AWS region where the ECS cluster is located | `string` | n/a | yes |
 | <a name="input_ecs_service_arn"></a> [ecs_service_arn](#input_ecs_service_arn) | The ARN of the ECS service to redeploy when a secret rotation event is detected | `string` | n/a | yes |

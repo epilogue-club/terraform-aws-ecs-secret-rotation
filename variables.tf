@@ -59,3 +59,21 @@ variable "lambda_function_tags" {
   description = "Tags to apply to the Lambda function"
   default     = {}
 }
+
+variable "create_cloudtrail" {
+  type        = bool
+  description = "Whether to create a CloudTrail to log management events. If set to false, you must ensure that there is an existing CloudTrail and S3 bucket."
+  default     = false
+}
+
+variable "cloudtrail_bucket_name" {
+  type        = string
+  description = "The name of the S3 bucket that will be created for the CloudTrail logs. This is only used and required if create_cloudtrail is set to true. If create_cloudtrail is false, this variable is ignored."
+  default     = null
+  nullable    = true
+
+  validation {
+    condition     = !var.create_cloudtrail || var.cloudtrail_bucket_name != null
+    error_message = "cloudtrail_bucket_name must be provided if create_cloudtrail is set to true"
+  }
+}

@@ -10,5 +10,6 @@ terraform {
       version = ">= 2.8.0"
     }
   }
-  required_version = ">= 1.1.9"
+  # 1.9.0+ is required for the validation blocks in variables.tf
+  required_version = ">= 1.9.0"
 }
