@@ -59,3 +59,9 @@ variable "lambda_function_tags" {
   description = "Tags to apply to the Lambda function"
   default     = {}
 }
+
+variable "create_cloudtrail" {
+  type        = bool
+  description = "Whether to create a CloudTrail to log management events. If set to false, you must ensure that there is an existing CloudTrail and S3 bucket."
+  default     = false
+}

@@ -24,7 +24,12 @@ What it creates:
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.
 
-## Basic usage example
+## Example Usage
+
+### Basic usage example without creating a CloudTrail
+
+For this basic example, you need to have an existing CloudTrail and associated S3 bucket to store the CloudTrail logs. If you don't have one, see the next example which includes Terraform code to create a CloudTrail.
+
 ```hcl
 module "ecs-secret-rotation" {
   source  = "epilogue-club/ecs-secret-rotation/aws"
@@ -42,6 +47,27 @@ module "ecs-secret-rotation" {
 }
 ```
 
+### Basic usage example with creating a CloudTrail
+
+```hcl
+module "ecs-secret-rotation" {
+  source  = "epilogue-club/ecs-secret-rotation/aws"
+  version = "1.0.0-alpha.2"
+
+  # set this variable to true to create a CloudTrail and S3 bucket for you
+  create_cloudtrail = true
+
+  # these are the required variables
+  ecs_cluster_name = "<your ECS cluster name>"
+  ecs_region       = "<your AWS region where the ECS cluster is located>"
+  ecs_service_arn  = "<your ECS service ARN>"
+  ecs_service_name = "<your ECS service name>"
+  name_prefix      = "<your name prefix>"
+  secrets_to_trigger_on = [
+    "<the ARN of the secret you want to trigger on when rotated>",
+  ]
+}
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
