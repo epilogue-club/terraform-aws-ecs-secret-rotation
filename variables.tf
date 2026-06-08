@@ -68,6 +68,12 @@ variable "create_cloudtrail" {
 
 variable "cloudtrail_bucket_name" {
   type        = string
-  description = "The name of the S3 bucket that will be created for the CloudTrail logs. This is only used if create_cloudtrail is set to true. If create_cloudtrail is false, this variable is ignored."
+  description = "The name of the S3 bucket that will be created for the CloudTrail logs. This is only used and required if create_cloudtrail is set to true. If create_cloudtrail is false, this variable is ignored."
   default     = null
+  nullable    = true
+
+  validation {
+    condition     = !var.create_cloudtrail || var.cloudtrail_bucket_name != null
+    error_message = "cloudtrail_bucket_name must be provided if create_cloudtrail is set to true"
+  }
 }
